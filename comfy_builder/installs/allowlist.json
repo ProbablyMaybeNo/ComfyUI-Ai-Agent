@@ -1,0 +1,57 @@
+{
+  "packs": {
+    "ComfyUI-AnimateDiff-Evolved": {
+      "repo": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved",
+      "provides": [
+        "ADE_AnimateDiffLoaderWithContext",
+        "ADE_AnimateDiffSamplingSettings",
+        "ADE_UseEvolvedSampling",
+        "ADE_AnimateDiffLoaderGen1",
+        "ADE_AnimateDiffCombine"
+      ],
+      "requires_models": ["animatediff_models/v3_sd15_mm.ckpt"]
+    },
+    "ComfyUI-VideoHelperSuite": {
+      "repo": "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite",
+      "provides": [
+        "VHS_VideoCombine",
+        "VHS_LoadVideo",
+        "VHS_LoadImages",
+        "VHS_LoadImagesPath",
+        "VHS_SplitImages"
+      ]
+    },
+    "ComfyUI_IPAdapter_plus": {
+      "repo": "https://github.com/cubiq/ComfyUI_IPAdapter_plus",
+      "provides": [
+        "IPAdapterModelLoader",
+        "IPAdapterApply",
+        "IPAdapterAdvanced",
+        "IPAdapterUnifiedLoader",
+        "IPAdapterEncoder"
+      ],
+      "note": "Already installed"
+    },
+    "ComfyUI-Manager": {
+      "repo": "https://github.com/ltdrdata/ComfyUI-Manager",
+      "provides": [],
+      "note": "Already installed"
+    },
+    "ComfyUI-Frame-Interpolation": {
+      "repo": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation",
+      "provides": [
+        "RIFE VFI",
+        "FILM VFI",
+        "IFRNet VFI"
+      ]
+    },
+    "ComfyUI-KJNodes": {
+      "repo": "https://github.com/kijai/ComfyUI-KJNodes",
+      "provides": [
+        "BatchCropFromMask",
+        "ConditioningSetMaskAndCombine",
+        "CreateTextMask"
+      ]
+    }
+  }
+}

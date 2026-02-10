@@ -1,0 +1,47 @@
+# Environment and secrets
+.env
+.env.local
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+ENV/
+
+# Test and tooling
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ComfyUI Builder outputs and cache
+comfy_builder/out/
+comfy_builder/logs/
+comfy_builder/schema/node_schema.json
+comfy_builder/schema/schema_meta.json
+
+# Optional: keep schema in repo if small; uncomment to ignore
+# comfy_builder/schema/
+
+# Windows reserved names (cause issues on clone)
+nul
+NUL
+comfy_builder/NUL
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Large or generated
+*.log
+install.log

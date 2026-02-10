@@ -1,0 +1,109 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "realvisxlV50_v50LightningBakedvae.safetensors"
+    }
+  },
+  "10": {
+    "class_type": "ADE_AnimateDiffLoaderWithContext",
+    "inputs": {
+      "model_name": "mm_sdxl_v10_beta.ckpt",
+      "beta_schedule": "linear (AnimateDiff-SDXL)",
+      "model": [
+        "1",
+        0
+      ]
+    }
+  },
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "a person in motion, cinematic, smooth",
+      "clip": [
+        "1",
+        1
+      ]
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, deformed, ugly, watermark, text, low quality, static, morphing face",
+      "clip": [
+        "1",
+        1
+      ]
+    }
+  },
+  "30": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 24
+    }
+  },
+  "40": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 42,
+      "steps": 20,
+      "cfg": 7.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.8,
+      "model": [
+        "10",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "21",
+        0
+      ],
+      "latent_image": [
+        "30",
+        0
+      ]
+    }
+  },
+  "50": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "vae": [
+        "1",
+        2
+      ],
+      "samples": [
+        "40",
+        0
+      ]
+    }
+  },
+  "60": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "fps": 12,
+      "images": [
+        "50",
+        0
+      ]
+    }
+  },
+  "61": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "filename_prefix": "comfy_builder/vid",
+      "format": "mp4",
+      "codec": "h264",
+      "video": [
+        "60",
+        0
+      ]
+    }
+  }
+}

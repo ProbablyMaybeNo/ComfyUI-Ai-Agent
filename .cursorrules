@@ -1,0 +1,53 @@
+# ComfyUI AI Builder — Cursor Agent Rules
+
+## Project Purpose
+This is a CLI-driven ComfyUI workflow builder. You can generate images and video by running Python commands.
+
+## How to Generate Content
+Always run commands from this project root directory.
+
+### Generate an image:
+```bash
+python -m comfy_builder build text2img --prompt "your prompt here" --steps 20
+python -m comfy_builder run current
+```
+
+### Generate styled images with LoRA:
+```bash
+python -m comfy_builder build lora_scenes --lora "pixar_style_sdxl.safetensors" --prompt "a cat in {scene}, pixar style" --scenes "kitchen|forest|beach" --count 2
+python -m comfy_builder run current
+```
+
+### Generate video:
+```bash
+python -m comfy_builder build img2vid --prompt "a cat walking" --seconds 1 --fps 8
+python -m comfy_builder run current
+```
+
+## Key Rules
+1. Always check `python -m comfy_builder status` before running workflows
+2. All output is JSON on stdout — parse it to get file paths
+3. Images go to `comfy_builder/out/images/`, video to `comfy_builder/out/video/`
+4. The ComfyUI server runs at http://127.0.0.1:8000
+5. Video generation takes ~8 minutes (AnimateDiff on RTX 4060)
+6. Text2img takes ~20 seconds
+7. For fast previews, use: `--checkpoint "sd_xl_turbo_1.0_fp16.safetensors" --steps 4 --cfg 1.0`
+
+## Available LoRA styles
+- pixar_style_sdxl.safetensors
+- ghibli_style_sdxl.safetensors
+- crayon_style_sdxl.safetensors
+- watercolor_style_sdxl.safetensors
+
+## Available checkpoints
+- realvisxlV50_v50LightningBakedvae.safetensors (default, photorealistic)
+- sd_xl_turbo_1.0_fp16.safetensors (fast, 4 steps)
+- sd_xl_base_1.0.safetensors (standard SDXL)
+- robmix_zenithV30.safetensors
+- sd_xl_refiner_1.0.safetensors
+
+## Do NOT
+- Edit comfy_builder Python files without understanding the architecture
+- Call ComfyUI API directly — use the CLI wrapper
+- Submit workflows without checking server status first
+- Use node class names not present in the schema (run `schema search` to check)

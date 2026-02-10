@@ -1,0 +1,17 @@
+{
+  "ComfyUI-AnimateDiff-Evolved": {
+    "repo": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved",
+    "installed_at": "2026-02-07T23:02:08.243809+00:00",
+    "path": "C:\\Users\\Admin\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-AnimateDiff-Evolved"
+  },
+  "ComfyUI-VideoHelperSuite": {
+    "repo": "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite",
+    "installed_at": "2026-02-07T23:02:13.699549+00:00",
+    "path": "C:\\Users\\Admin\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-VideoHelperSuite"
+  },
+  "ComfyUI-Frame-Interpolation": {
+    "repo": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation",
+    "installed_at": "2026-02-08T07:34:54.135654+00:00",
+    "path": "C:\\Users\\Admin\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-Frame-Interpolation"
+  }
+}

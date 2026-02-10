@@ -1,0 +1,87 @@
+{
+  "checkpoint": "realvisxlV50_v50LightningBakedvae.safetensors",
+  "lora": "pixar_style_sdxl.safetensors",
+  "lora_strength": 0.85,
+  "prompt_template": "reference image of a person, {scene}",
+  "negative": "blurry, deformed, ugly, watermark, text, low quality",
+  "scenes": [
+    "standing",
+    "sitting",
+    "lying down"
+  ],
+  "count_per_scene": 3,
+  "total_images": 9,
+  "steps": 25,
+  "cfg": 8,
+  "width": 1024,
+  "height": 1024,
+  "sampler": "euler",
+  "scheduler": "normal",
+  "use_ipadapter": false,
+  "ref": null,
+  "batch": [
+    {
+      "scene": "standing",
+      "index": 0,
+      "seed": -1,
+      "prompt": "reference image of a person, standing",
+      "filename_prefix": "comfy_builder/lora_standing_0"
+    },
+    {
+      "scene": "standing",
+      "index": 1,
+      "seed": 0,
+      "prompt": "reference image of a person, standing",
+      "filename_prefix": "comfy_builder/lora_standing_1"
+    },
+    {
+      "scene": "standing",
+      "index": 2,
+      "seed": 1,
+      "prompt": "reference image of a person, standing",
+      "filename_prefix": "comfy_builder/lora_standing_2"
+    },
+    {
+      "scene": "sitting",
+      "index": 0,
+      "seed": 2,
+      "prompt": "reference image of a person, sitting",
+      "filename_prefix": "comfy_builder/lora_sitting_0"
+    },
+    {
+      "scene": "sitting",
+      "index": 1,
+      "seed": 3,
+      "prompt": "reference image of a person, sitting",
+      "filename_prefix": "comfy_builder/lora_sitting_1"
+    },
+    {
+      "scene": "sitting",
+      "index": 2,
+      "seed": 4,
+      "prompt": "reference image of a person, sitting",
+      "filename_prefix": "comfy_builder/lora_sitting_2"
+    },
+    {
+      "scene": "lying down",
+      "index": 0,
+      "seed": 5,
+      "prompt": "reference image of a person, lying down",
+      "filename_prefix": "comfy_builder/lora_lying_down_0"
+    },
+    {
+      "scene": "lying down",
+      "index": 1,
+      "seed": 6,
+      "prompt": "reference image of a person, lying down",
+      "filename_prefix": "comfy_builder/lora_lying_down_1"
+    },
+    {
+      "scene": "lying down",
+      "index": 2,
+      "seed": 7,
+      "prompt": "reference image of a person, lying down",
+      "filename_prefix": "comfy_builder/lora_lying_down_2"
+    }
+  ]
+}

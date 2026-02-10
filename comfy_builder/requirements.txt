@@ -1,0 +1,5 @@
+# ComfyUI AI Builder dependencies
+# Note: uses only stdlib (urllib, json, etc.) by default.
+# These are optional for enhanced functionality:
+# websocket-client>=1.6.0  # For real-time progress via WebSocket
+# requests>=2.31.0         # Alternative HTTP client (not required)

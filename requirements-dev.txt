@@ -1,0 +1,7 @@
+# Dev and manual/live testing for ComfyUI Agent
+-r comfy_builder/requirements.txt
+python-dotenv>=1.0.0
+pytest>=7.0.0
+# Desktop UI automation (for run_manual_cli_flow — mouse interaction with ComfyUI window)
+pygetwindow>=0.0.9
+pyautogui>=0.9.54

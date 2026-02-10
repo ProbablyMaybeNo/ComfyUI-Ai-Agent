@@ -1,0 +1,100 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "realvisxlV50_v50LightningBakedvae.safetensors"
+    },
+    "_meta": { "title": "SDXL Checkpoint" }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "probablymaybenot_A_cute_fat_round_little_creature_with_short_ch_6e11801f-b39b-4ae0-8d0f-57bbaa91284c.png"
+    },
+    "_meta": { "title": "🟢 HUFFLE REFERENCE IMAGE — Change this to swap character" }
+  },
+  "3": {
+    "class_type": "IPAdapterModelLoader",
+    "inputs": {
+      "ipadapter_file": "sdxl\\ip-adapter-plus_sdxl_vit-h.safetensors"
+    },
+    "_meta": { "title": "IPAdapter Model (SDXL Plus)" }
+  },
+  "4": {
+    "class_type": "CLIPVisionLoader",
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "_meta": { "title": "CLIP Vision Encoder" }
+  },
+  "5": {
+    "class_type": "IPAdapter",
+    "inputs": {
+      "model": ["1", 0],
+      "ipadapter": ["3", 0],
+      "image": ["2", 0],
+      "weight": 0.85,
+      "start_at": 0.0,
+      "end_at": 1.0,
+      "weight_type": "standard"
+    },
+    "_meta": { "title": "🔧 IPAdapter — weight controls identity strength (0.7-0.95)" }
+  },
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "a cute fat round little creature with short stubby arms, big dark glossy eyes, smooth pale body, sitting in a grocery store aisle at night, holding a tiny shopping basket, photorealistic, cinematic lighting, 8k, detailed",
+      "clip": ["1", 1]
+    },
+    "_meta": { "title": "🟢 SCENE PROMPT — Edit this text to change the scene" }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, deformed, ugly, extra limbs, wrong face, text, watermark, low quality, bad anatomy, disfigured, mutated, oversaturated",
+      "clip": ["1", 1]
+    },
+    "_meta": { "title": "Negative Prompt (keep consistent)" }
+  },
+  "20": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "_meta": { "title": "🔧 Resolution — keep consistent for composition stability" }
+  },
+  "30": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["5", 0],
+      "seed": 42,
+      "steps": 25,
+      "cfg": 7.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "positive": ["10", 0],
+      "negative": ["11", 0],
+      "latent_image": ["20", 0],
+      "denoise": 1.0
+    },
+    "_meta": { "title": "🔧 Sampler — seed for repeatability, denoise=1.0 for txt2img+IPAdapter" }
+  },
+  "40": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["30", 0],
+      "vae": ["1", 2]
+    },
+    "_meta": { "title": "VAE Decode" }
+  },
+  "50": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["40", 0],
+      "filename_prefix": "huffle/grocery_store"
+    },
+    "_meta": { "title": "🟢 OUTPUT — Change filename_prefix per scene" }
+  }
+}
