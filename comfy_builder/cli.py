@@ -143,7 +143,7 @@ def cmd_run_scenes(args):
     import copy
     import re
     from . import config, api, store
-    from .utils import load_json, save_json, timestamp, append_jsonl
+    from .utils import timestamp
 
     workflow_name = args.workflow
     wf = store.load_workflow(workflow_name)
@@ -173,6 +173,7 @@ def cmd_run_scenes(args):
 
     ts = timestamp()
     all_outputs = []
+    completed_scenes = set()
     errors = []
 
     print(f"Running {len(scenes)} scenes with workflow '{workflow_name}'...", file=sys.stderr)
@@ -185,24 +186,16 @@ def cmd_run_scenes(args):
 
         wf_copy = copy.deepcopy(wf)
 
-        # Patch prompt node (find CLIPTextEncode that's positive prompt)
+        # Patch key nodes in one pass (prompt, filename, and optional seed)
         for nid, node in wf_copy.items():
             if node.get("class_type") == "CLIPTextEncode":
                 text = node.get("inputs", {}).get("text", "")
                 if "blurry" not in text and "deformed" not in text:
                     node["inputs"]["text"] = full_prompt
-                    break
-
-        # Patch filename prefix
-        for nid, node in wf_copy.items():
-            if node.get("class_type") == "SaveImage":
+            elif node.get("class_type") == "SaveImage":
                 node["inputs"]["filename_prefix"] = f"huffle/{scene_slug}"
-
-        # Patch seed if requested
-        if args.seed is not None:
-            for nid, node in wf_copy.items():
-                if node.get("class_type") == "KSampler":
-                    node["inputs"]["seed"] = args.seed + i
+            elif args.seed is not None and node.get("class_type") == "KSampler":
+                node["inputs"]["seed"] = args.seed + i
 
         try:
             resp = api.post_prompt(wf_copy)
@@ -228,6 +221,7 @@ def cmd_run_scenes(args):
                                     "file": f"ComfyUI/output/huffle/{scene_slug}_{img.get('filename', '')}",
                                     "filename": img.get("filename", ""),
                                 })
+                                completed_scenes.add(scene_slug)
                         break
                     if status.get("status_str") == "error":
                         errors.append({"scene": scene_slug, "error": str(status)})
@@ -244,7 +238,7 @@ def cmd_run_scenes(args):
     result = {
         "status": "success" if not errors else ("partial" if all_outputs else "failed"),
         "scenes_total": len(scenes),
-        "scenes_completed": len(all_outputs),
+        "scenes_completed": len(completed_scenes),
         "outputs": all_outputs,
         "errors": errors,
     }

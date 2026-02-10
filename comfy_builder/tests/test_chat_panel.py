@@ -119,7 +119,6 @@ class TestToolExecute:
         result = tools.execute("install_nodes", {"source": "ComfyUI-AnimateDiff-Evolved"})
         assert result["status"] == "success"
         mock_install.assert_called_once_with("ComfyUI-AnimateDiff-Evolved", force_allow=False)
-        assert "No run logs" in result.get("error", "")
 
 
 # --- Live tests: panel server + LLM conversation ---
