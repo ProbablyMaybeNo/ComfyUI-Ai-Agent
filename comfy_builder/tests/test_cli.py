@@ -129,6 +129,55 @@ class TestArgumentParsing:
             assert args.character == "a big red dog"
 
 
+class TestRunScenesLogic:
+    """Verify run-scenes runtime behavior."""
+
+    @patch("comfy_builder.store.save_run_log", return_value="/tmp/run.json")
+    @patch("comfy_builder.api.get_history")
+    @patch("comfy_builder.api.post_prompt")
+    @patch("comfy_builder.api.check_server")
+    @patch("comfy_builder.store.load_workflow")
+    @patch("comfy_builder.config.WORKFLOWS_DIR")
+    def test_run_scenes_counts_completed_scenes_not_images(
+        self,
+        mock_workflows_dir,
+        mock_load_workflow,
+        mock_check_server,
+        mock_post_prompt,
+        mock_get_history,
+        mock_save_run_log,
+        tmp_path,
+    ):
+        from argparse import Namespace
+        from comfy_builder.cli import cmd_run_scenes
+
+        scenes_path = tmp_path / "scenes.txt"
+        scenes_path.write_text("sunrise\nforest")
+        mock_workflows_dir.__truediv__.return_value = scenes_path
+
+        mock_load_workflow.return_value = {
+            "1": {"class_type": "CLIPTextEncode", "inputs": {"text": "prompt"}},
+            "2": {"class_type": "SaveImage", "inputs": {"filename_prefix": "x"}},
+            "3": {"class_type": "KSampler", "inputs": {"seed": 1}},
+        }
+        mock_check_server.return_value = {"online": True}
+        mock_post_prompt.side_effect = [{"prompt_id": "p1"}, {"prompt_id": "p2"}]
+        mock_get_history.side_effect = [
+            {"p1": {"status": {"completed": True}, "outputs": {"7": {"images": [{"filename": "a.png"}, {"filename": "b.png"}]}}}},
+            {"p2": {"status": {"completed": True}, "outputs": {"7": {"images": [{"filename": "c.png"}]}}}},
+        ]
+
+        args = Namespace(workflow="current", character=None, seed=100)
+        rc = cmd_run_scenes(args)
+
+        assert rc == 0
+        saved = mock_save_run_log.call_args[0][0]
+        assert saved["scenes_total"] == 2
+        assert saved["scenes_completed"] == 2
+        assert len(saved["outputs"]) == 3
+
+
+
 class TestCommandRouting:
     """Verify commands return correct exit codes."""
 
